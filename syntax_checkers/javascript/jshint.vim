@@ -32,8 +32,18 @@ function! SyntaxCheckers_javascript_jshint_GetLocList()
 endfunction
 
 function s:Args()
+    let l:conf = g:syntastic_javascript_jshint_conf
+
+    if exists("b:syntastic_javascript_jshint_conf")
+        let l:conf = b:syntastic_javascript_jshint_conf
+    elseif exists("t:syntastic_javascript_jshint_conf")
+        let l:conf = t:syntastic_javascript_jshint_conf
+    elseif exists("w:syntastic_javascript_jshint_conf")
+        let l:conf = w:syntastic_javascript_jshint_conf
+    endif
+
     " node-jshint uses .jshintrc as config unless --config arg is present
-    return !empty(g:syntastic_javascript_jshint_conf) ? ' --config ' . g:syntastic_javascript_jshint_conf : ''
+    return !empty(l:conf) ? ' --config '.l:conf : ''
 endfunction
 
 call g:SyntasticRegistry.CreateAndRegisterChecker({
